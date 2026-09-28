@@ -662,112 +662,112 @@
   // 16 realistically modelled personnel records with medical & HR metrics
   const DB = [
     {
-      id: 1, name: 'Sanskardeep Talikote', rank: 'Havildar', svc: 'Service#7214', unit: 'Pune · 45 Bn', age: 34,
+      id: 1, name: 'Sanskardeep Talikote', rank: 'Field Operations Lead', svc: 'Service#7214', unit: 'Pune · 45 Bn', age: 34,
       hr: { dutyHoursWeek: 74, leaveDeficitDays: 195, deploymentDays: 209, transfers24m: 3, nightShiftRatio: 55 },
       bio: { hrv_autonomic: 24, resting_cardiac: 88, sleep_circadian: 48, vocal_acoustic: 44, oculomotor_vision: 46, neuromotor_stability: 68, cognitive_executive: 42, mobility_fatigue: 65 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'normal', cognitive_executive: 'concern', mobility_fatigue: 'normal' },
       history: [4, 5, 5], lastCheck: '12 Sep · 08:14', spark: [42, 50, 58, 66, 74, 82, 90]
     },
     {
-      id: 2, name: 'Aditya Paraskar', rank: 'Inspector', svc: 'Service#3087', unit: 'Pune · 45 Bn', age: 41,
+      id: 2, name: 'Aditya Paraskar', rank: 'Operations Inspector', svc: 'Service#3087', unit: 'Pune · 45 Bn', age: 41,
       hr: { dutyHoursWeek: 78, leaveDeficitDays: 240, deploymentDays: 312, transfers24m: 4, nightShiftRatio: 65 },
       bio: { hrv_autonomic: 19, resting_cardiac: 94, sleep_circadian: 38, vocal_acoustic: 40, oculomotor_vision: 38, neuromotor_stability: 45, cognitive_executive: 50, mobility_fatigue: 48 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'concern', cognitive_executive: 'warning', mobility_fatigue: 'concern' },
       history: [5, 6, 6], lastCheck: '12 Sep · 07:58', spark: [60, 65, 70, 72, 78, 84, 88]
     },
     {
-      id: 3, name: 'Chinmayee Mohapatra', rank: 'Sub-Inspector', svc: 'Service#5501', unit: 'Nashik · 72 Bn', age: 29,
+      id: 3, name: 'Chinmayee Mohapatra', rank: 'Senior Operations Officer', svc: 'Service#5501', unit: 'Nashik · 72 Bn', age: 29,
       hr: { dutyHoursWeek: 48, leaveDeficitDays: 45, deploymentDays: 156, transfers24m: 1, nightShiftRatio: 20 },
       bio: { hrv_autonomic: 68, resting_cardiac: 66, sleep_circadian: 86, vocal_acoustic: 88, oculomotor_vision: 84, neuromotor_stability: 85, cognitive_executive: 88, mobility_fatigue: 90 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [1, 1, 0], lastCheck: '11 Sep · 16:30', spark: [20, 22, 25, 24, 22, 20, 18]
     },
     {
-      id: 4, name: 'Sanket Korde', rank: 'Head Constable', svc: 'Service#6832', unit: 'Pune · 45 Bn', age: 31,
+      id: 4, name: 'Sanket Korde', rank: 'Unit Operations Coordinator', svc: 'Service#6832', unit: 'Pune · 45 Bn', age: 31,
       hr: { dutyHoursWeek: 56, leaveDeficitDays: 110, deploymentDays: 198, transfers24m: 2, nightShiftRatio: 35 },
       bio: { hrv_autonomic: 45, resting_cardiac: 76, sleep_circadian: 62, vocal_acoustic: 68, oculomotor_vision: 64, neuromotor_stability: 72, cognitive_executive: 70, mobility_fatigue: 74 },
       flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'normal', oculomotor_vision: 'warning', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [2, 3, 2], lastCheck: '12 Sep · 09:00', spark: [35, 38, 40, 42, 38, 35, 32]
     },
     {
-      id: 5, name: 'Sanskruti Surywanshi', rank: 'General Duty Constable', svc: 'Service#8104', unit: 'Nashik · 72 Bn', age: 26,
+      id: 5, name: 'Sanskruti Surywanshi', rank: 'Field Operations Associate', svc: 'Service#8104', unit: 'Nashik · 72 Bn', age: 26,
       hr: { dutyHoursWeek: 72, leaveDeficitDays: 185, deploymentDays: 87, transfers24m: 3, nightShiftRatio: 58 },
       bio: { hrv_autonomic: 26, resting_cardiac: 90, sleep_circadian: 42, vocal_acoustic: 48, oculomotor_vision: 44, neuromotor_stability: 58, cognitive_executive: 44, mobility_fatigue: 52 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'warning', cognitive_executive: 'concern', mobility_fatigue: 'warning' },
       history: [5, 5, 6], lastCheck: '12 Sep · 08:30', spark: [55, 60, 65, 72, 78, 82, 86]
     },
     {
-      id: 6, name: 'Aarya Gupta', rank: 'General Duty Constable', svc: 'Service#9221', unit: 'Nagpur · 118 Bn', age: 24,
+      id: 6, name: 'Aarya Gupta', rank: 'Field Operations Associate', svc: 'Service#9221', unit: 'Nagpur · 118 Bn', age: 24,
       hr: { dutyHoursWeek: 44, leaveDeficitDays: 30, deploymentDays: 45, transfers24m: 1, nightShiftRatio: 15 },
       bio: { hrv_autonomic: 74, resting_cardiac: 64, sleep_circadian: 90, vocal_acoustic: 92, oculomotor_vision: 89, neuromotor_stability: 91, cognitive_executive: 90, mobility_fatigue: 92 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [0, 0, 0], lastCheck: '11 Sep · 17:00', spark: [15, 14, 16, 18, 15, 14, 12]
     },
     {
-      id: 7, name: 'Pranav Deshmukh', rank: 'Assistant Sub-Inspector', svc: 'Service#4156', unit: 'Pune · 45 Bn', age: 38,
+      id: 7, name: 'Pranav Deshmukh', rank: 'Assistant Operations Officer', svc: 'Service#4156', unit: 'Pune · 45 Bn', age: 38,
       hr: { dutyHoursWeek: 60, leaveDeficitDays: 135, deploymentDays: 267, transfers24m: 2, nightShiftRatio: 40 },
       bio: { hrv_autonomic: 42, resting_cardiac: 78, sleep_circadian: 58, vocal_acoustic: 62, oculomotor_vision: 65, neuromotor_stability: 74, cognitive_executive: 68, mobility_fatigue: 70 },
       flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'warning', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [2, 2, 3], lastCheck: '12 Sep · 07:45', spark: [30, 32, 35, 38, 40, 42, 45]
     },
     {
-      id: 8, name: 'Omkar Jadhav', rank: 'Havildar', svc: 'Service#5033', unit: 'Nagpur · 118 Bn', age: 36,
+      id: 8, name: 'Omkar Jadhav', rank: 'Field Operations Lead', svc: 'Service#5033', unit: 'Nagpur · 118 Bn', age: 36,
       hr: { dutyHoursWeek: 70, leaveDeficitDays: 175, deploymentDays: 234, transfers24m: 3, nightShiftRatio: 50 },
       bio: { hrv_autonomic: 28, resting_cardiac: 86, sleep_circadian: 46, vocal_acoustic: 45, oculomotor_vision: 52, neuromotor_stability: 48, cognitive_executive: 55, mobility_fatigue: 56 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'warning', neuromotor_stability: 'concern', cognitive_executive: 'warning', mobility_fatigue: 'warning' },
       history: [4, 5, 5], lastCheck: '12 Sep · 08:10', spark: [48, 52, 58, 64, 70, 75, 80]
     },
     {
-      id: 9, name: 'Rohit Bhosale', rank: 'General Duty Constable', svc: 'Service#9877', unit: 'Nashik · 72 Bn', age: 22,
+      id: 9, name: 'Rohit Bhosale', rank: 'Field Operations Associate', svc: 'Service#9877', unit: 'Nashik · 72 Bn', age: 22,
       hr: { dutyHoursWeek: 42, leaveDeficitDays: 20, deploymentDays: 30, transfers24m: 1, nightShiftRatio: 10 },
       bio: { hrv_autonomic: 80, resting_cardiac: 62, sleep_circadian: 92, vocal_acoustic: 94, oculomotor_vision: 90, neuromotor_stability: 92, cognitive_executive: 94, mobility_fatigue: 95 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [0, 0, 0], lastCheck: '11 Sep · 16:45', spark: [10, 12, 10, 8, 10, 12, 10]
     },
     {
-      id: 10, name: 'Tejas Pawar', rank: 'Subedar', svc: 'Service#2190', unit: 'Pune · 45 Bn', age: 45,
+      id: 10, name: 'Tejas Pawar', rank: 'Senior Field Supervisor', svc: 'Service#2190', unit: 'Pune · 45 Bn', age: 45,
       hr: { dutyHoursWeek: 64, leaveDeficitDays: 160, deploymentDays: 401, transfers24m: 2, nightShiftRatio: 45 },
       bio: { hrv_autonomic: 40, resting_cardiac: 79, sleep_circadian: 54, vocal_acoustic: 60, oculomotor_vision: 58, neuromotor_stability: 62, cognitive_executive: 62, mobility_fatigue: 60 },
       flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'warning', oculomotor_vision: 'warning', neuromotor_stability: 'warning', cognitive_executive: 'warning', mobility_fatigue: 'warning' },
       history: [2, 3, 3], lastCheck: '12 Sep · 09:15', spark: [38, 40, 42, 45, 48, 50, 52]
     },
     {
-      id: 11, name: 'Kedar Mudiraj', rank: 'General Duty Constable', svc: 'Service#8555', unit: 'Nagpur · 118 Bn', age: 23,
+      id: 11, name: 'Kedar Mudiraj', rank: 'Field Operations Associate', svc: 'Service#8555', unit: 'Nagpur · 118 Bn', age: 23,
       hr: { dutyHoursWeek: 45, leaveDeficitDays: 35, deploymentDays: 62, transfers24m: 1, nightShiftRatio: 15 },
       bio: { hrv_autonomic: 72, resting_cardiac: 65, sleep_circadian: 88, vocal_acoustic: 89, oculomotor_vision: 86, neuromotor_stability: 88, cognitive_executive: 88, mobility_fatigue: 90 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [1, 0, 0], lastCheck: '11 Sep · 17:15', spark: [18, 20, 18, 16, 18, 20, 18]
     },
     {
-      id: 12, name: 'Aditya Kulkarni', rank: 'Head Constable', svc: 'Service#6298', unit: 'Nashik · 72 Bn', age: 33,
+      id: 12, name: 'Aditya Kulkarni', rank: 'Unit Operations Coordinator', svc: 'Service#6298', unit: 'Nashik · 72 Bn', age: 33,
       hr: { dutyHoursWeek: 76, leaveDeficitDays: 220, deploymentDays: 178, transfers24m: 4, nightShiftRatio: 62 },
       bio: { hrv_autonomic: 22, resting_cardiac: 92, sleep_circadian: 40, vocal_acoustic: 42, oculomotor_vision: 46, neuromotor_stability: 52, cognitive_executive: 46, mobility_fatigue: 50 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'warning', cognitive_executive: 'concern', mobility_fatigue: 'warning' },
       history: [5, 6, 6], lastCheck: '12 Sep · 08:05', spark: [58, 62, 68, 74, 80, 85, 92]
     },
     {
-      id: 13, name: 'Mohit Raut', rank: 'Inspector', svc: 'Service#3345', unit: 'Nagpur · 118 Bn', age: 42,
+      id: 13, name: 'Mohit Raut', rank: 'Operations Inspector', svc: 'Service#3345', unit: 'Nagpur · 118 Bn', age: 42,
       hr: { dutyHoursWeek: 52, leaveDeficitDays: 70, deploymentDays: 345, transfers24m: 2, nightShiftRatio: 25 },
       bio: { hrv_autonomic: 55, resting_cardiac: 72, sleep_circadian: 70, vocal_acoustic: 72, oculomotor_vision: 74, neuromotor_stability: 80, cognitive_executive: 76, mobility_fatigue: 78 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [1, 2, 1], lastCheck: '12 Sep · 08:45', spark: [28, 30, 32, 35, 38, 35, 32]
     },
     {
-      id: 14, name: 'Sarang Nimbalkar', rank: 'Havildar', svc: 'Service#4789', unit: 'Pune · 45 Bn', age: 37,
+      id: 14, name: 'Sarang Nimbalkar', rank: 'Field Operations Lead', svc: 'Service#4789', unit: 'Pune · 45 Bn', age: 37,
       hr: { dutyHoursWeek: 82, leaveDeficitDays: 275, deploymentDays: 256, transfers24m: 4, nightShiftRatio: 70 },
       bio: { hrv_autonomic: 18, resting_cardiac: 96, sleep_circadian: 32, vocal_acoustic: 38, oculomotor_vision: 34, neuromotor_stability: 42, cognitive_executive: 38, mobility_fatigue: 40 },
       flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'concern', cognitive_executive: 'concern', mobility_fatigue: 'concern' },
       history: [6, 7, 7], lastCheck: '12 Sep · 07:30', spark: [65, 70, 75, 80, 85, 90, 95]
     },
     {
-      id: 15, name: 'Suyog Gokhale', rank: 'General Duty Constable', svc: 'Service#8890', unit: 'Nashik · 72 Bn', age: 25,
+      id: 15, name: 'Suyog Gokhale', rank: 'Field Operations Associate', svc: 'Service#8890', unit: 'Nashik · 72 Bn', age: 25,
       hr: { dutyHoursWeek: 42, leaveDeficitDays: 25, deploymentDays: 55, transfers24m: 1, nightShiftRatio: 12 },
       bio: { hrv_autonomic: 78, resting_cardiac: 63, sleep_circadian: 91, vocal_acoustic: 90, oculomotor_vision: 88, neuromotor_stability: 90, cognitive_executive: 92, mobility_fatigue: 94 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
       history: [0, 0, 0], lastCheck: '11 Sep · 16:50', spark: [12, 14, 12, 10, 12, 14, 12]
     },
     {
-      id: 16, name: 'Parth Dhamal', rank: 'Assistant Sub-Inspector', svc: 'Service#5612', unit: 'Nagpur · 118 Bn', age: 35,
+      id: 16, name: 'Parth Dhamal', rank: 'Assistant Operations Officer', svc: 'Service#5612', unit: 'Nagpur · 118 Bn', age: 35,
       hr: { dutyHoursWeek: 58, leaveDeficitDays: 140, deploymentDays: 201, transfers24m: 2, nightShiftRatio: 38 },
       bio: { hrv_autonomic: 48, resting_cardiac: 75, sleep_circadian: 60, vocal_acoustic: 64, oculomotor_vision: 66, neuromotor_stability: 72, cognitive_executive: 68, mobility_fatigue: 70 },
       flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
@@ -791,7 +791,7 @@
     },
     personnel: {
       label: 'Individual Personnel',
-      scope: 'Confidential Self Wellness (G.D. Constable Aarya Gupta)',
+      scope: 'Confidential Self Wellness (Field Operations Associate Aarya Gupta)',
       desc: 'Private self-status, confidential health support, cognitive resilience training',
       nav: ['mystatus', 'cognitive', 'evidence', 'privacy']
     },
