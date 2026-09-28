@@ -481,8 +481,10 @@
   <div class="login-hero">
     <div class="hero-brand">
       <div class="hero-emblem">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="SEREN wellbeing mark">
+          <path d="M12 20.5V5.8a3.8 3.8 0 0 0-7.3 1.5A3.6 3.6 0 0 0 3.5 13a3.6 3.6 0 0 0 2.2 6.5A3.8 3.8 0 0 0 12 20.5Z"/>
+          <path d="M12 20.5V5.8a3.8 3.8 0 0 1 7.3 1.5A3.6 3.6 0 0 1 20.5 13a3.6 3.6 0 0 1-2.2 6.5A3.8 3.8 0 0 1 12 20.5Z"/>
+          <path d="M8.2 9.3c1.4.2 2.4 1 2.8 2.3M15.8 9.3c-1.4.2-2.4 1-2.8 2.3M8.1 15.3c1.2-.4 2.5-.2 3.9.7M15.9 15.3c-1.2-.4-2.5-.2-3.9.7"/>
         </svg>
       </div>
       <div>
@@ -492,16 +494,16 @@
 
     <div class="hero-content">
       <div class="hero-tag">Predictive Welfare Monitoring</div>
-      <div class="hero-title">Early Stress Intelligence for Personnel Wellbeing</div>
+      <div class="hero-title">From assessment to early support</div>
       <div class="hero-desc">
-        A privacy-first platform combining physiological signals, cognitive assessments,
-        and workload indicators into clear, actionable welfare insights.
+        SEREN reads each soldier's assessment signals, adaptive baseline and workload pattern
+        to estimate emerging stress risk before it becomes a welfare concern.
       </div>
       <div class="hero-pills">
-        <div class="hero-pill-item">Privacy-first</div>
-        <div class="hero-pill-item">Explainable signals</div>
-        <div class="hero-pill-item">Workload intelligence</div>
-        <div class="hero-pill-item">7-day forecast</div>
+        <div class="hero-pill-item">Assessment to forecast</div>
+        <div class="hero-pill-item">Adaptive personal baseline</div>
+        <div class="hero-pill-item">Explainable risk reasoning</div>
+        <div class="hero-pill-item">Support action loop</div>
       </div>
     </div>
 
@@ -512,7 +514,7 @@
 
   <div class="login-form-pane">
     <div class="login-box">
-      <h2>Role-Based Access Portal</h2>
+      <h2>Role based access portal</h2>
       <p>Select your authorized credential scope to enter the welfare command interface.</p>
 
       <div class="role-grid" id="roleGrid"></div>
@@ -789,7 +791,7 @@
     },
     personnel: {
       label: 'Individual Personnel',
-      scope: 'Confidential Self-Wellness (G.D. Constable Aarya Gupta)',
+      scope: 'Confidential Self Wellness (G.D. Constable Aarya Gupta)',
       desc: 'Private self-status, confidential health support, cognitive resilience training',
       nav: ['mystatus', 'cognitive', 'evidence', 'privacy']
     },
@@ -909,7 +911,7 @@
       list.push({ title: 'Clinical Autonomic & Cardiology Screening', role: 'Medical Officer', desc: 'Conduct non-invasive 12-lead ECG and cardiovascular stress evaluation.' });
     }
     if (p.flags.vocal_acoustic === 'concern' || p.flags.cognitive_executive === 'concern') {
-      list.push({ title: 'Confidential Psychological Welfare Counseling', role: 'Psychological Counselor', desc: 'Structured, stigma-free counseling session focusing on stress-coping strategies.' });
+      list.push({ title: 'Confidential Psychological Welfare Counseling', role: 'Psychological Counselor', desc: 'Structured, respectful counseling session focusing on stress coping strategies.' });
     }
     if (list.length === 0) {
       list.push({ title: 'Routine Preventive Monitoring', role: 'System Automatic', desc: 'Biomarkers within healthy physiological norms. Maintain scheduled assessment cycle.' });
@@ -1000,7 +1002,7 @@
     overview: { label: 'Command Overview', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
     personnel: { label: 'Personnel Queue', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
     alerts: { label: 'Automated Alerts', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' },
-    forecast: { label: '7-Day Risk Forecast', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' },
+    forecast: { label: '7 day risk forecast', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' },
     hrms_matrix: { label: 'HR & Duty Matrix', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' },
     evidence: { label: 'Clinical Evidence Library', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
     interventions: { label: 'Welfare Action Loop', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
@@ -1095,7 +1097,7 @@
         </div>
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">7d High Stress Forecast</span>
+            <span class="kpi-label">7 day high stress forecast</span>
             <div class="kpi-icon" style="color:var(--danger)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
           </div>
           <div class="kpi-val" style="color:var(--danger)">${critical}</div>
@@ -1123,9 +1125,9 @@
         <div class="section-header">
           <div>
             <div class="section-title">Clinical & Operational Stress Horizon</div>
-            <div class="section-desc">Multi-modal synthesis of voluntary physiological biomarkers and HRMS duty/leave records.</div>
+            <div class="section-desc">Multiple signal synthesis from voluntary physiological assessments and duty and leave records.</div>
           </div>
-          <button class="btn-login" style="width:auto; padding:8px 16px; font-size:12.5px;" onclick="switchView('forecast')">View Full 7-Day Forecast</button>
+          <button class="btn-login" style="width:auto; padding:8px 16px; font-size:12.5px;" onclick="switchView('forecast')">View full 7 day forecast</button>
         </div>
 
         <div class="table-container">
@@ -1137,7 +1139,7 @@
                 <th>Duty Hours / Wk</th>
                 <th>Leave Deficit</th>
                 <th>Primary Clinical Strain</th>
-                <th>7-Day Risk Forecast</th>
+                <th>7 day risk forecast</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -1204,7 +1206,7 @@
                 <th>Autonomic (HRV)</th>
                 <th>Resting Pulse</th>
                 <th>Sleep Recovery</th>
-                <th>7-Day Forecast</th>
+                <th>7 day forecast</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -1273,7 +1275,7 @@
                 <th>Clinical Consensus Breach</th>
                 <th>HR Load Co-Factors</th>
                 <th>Persistence Chain</th>
-                <th>Predicted 7d Risk</th>
+                <th>Predicted 7 day risk</th>
                 <th>Mandated Action</th>
               </tr>
             </thead>
@@ -1317,14 +1319,14 @@
     `;
   }
 
-  // View: 7-Day Forecast
+  // View: 7 day forecast
   function renderForecast(c) {
     const list = filterPersonnelList().sort((a,b) => getForecast7d(b).prob - getForecast7d(a).prob);
     c.innerHTML = `
       <div class="section-card">
         <div class="section-header">
           <div>
-            <div class="section-title">7-Day Stress & Burnout Predictive Horizon</div>
+            <div class="section-title">7 day stress and burnout predictive horizon</div>
             <div class="section-desc">Forecasting cumulative operational and somatic burnout risk with multi-factorial clinical explainability.</div>
           </div>
         </div>
@@ -1375,7 +1377,7 @@
     `;
   }
 
-  // View: HR & Duty Matrix
+  // View: HR and duty matrix
   function renderHrmsMatrix(c) {
     const list = filterPersonnelList().sort((a,b) => b.hr.dutyHoursWeek - a.hr.dutyHoursWeek);
     c.innerHTML = `
@@ -1383,7 +1385,7 @@
         <div class="section-header">
           <div>
             <div class="section-title">HRMS Operational Duty & Leave Stress Matrix</div>
-            <div class="section-desc">Continuous analysis of duty schedules, leave deficit, deployment tenure, and transfer volatility.</div>
+            <div class="section-desc">Continuous analysis of duty schedules, leave deficit, deployment tenure and transfer volatility.</div>
           </div>
         </div>
 
@@ -1646,7 +1648,7 @@
             <p style="font-size:12.5px; color:var(--text-sub);">System data is strictly insulated from disciplinary proceedings, ACR appraisals, or punitive actions. The platform operates strictly as a preventive welfare mechanism.</p>
           </div>
           <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
-            <div style="font-weight:700; margin-bottom:6px;">2. Dynamic Role-Based Access Control</div>
+            <div style="font-weight:700; margin-bottom:6px;">2. Dynamic role based access control</div>
             <p style="font-size:12.5px; color:var(--text-sub);">Unit Commanders view operational load & aggregate status; Medical Officers access clinical biomarkers; Personnel view only their private records.</p>
           </div>
           <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
