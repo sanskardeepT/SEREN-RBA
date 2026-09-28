@@ -1001,7 +1001,7 @@
   const NAV_CONFIG = {
     overview: { label: 'Command Overview', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
     personnel: { label: 'Personnel Queue', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
-    alerts: { label: 'Automated Alerts', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' },
+    alerts: { label: 'Predictive Alerts', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' },
     forecast: { label: '7 day risk forecast', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' },
     hrms_matrix: { label: 'HR & Duty Matrix', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' },
     evidence: { label: 'Clinical Evidence Library', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
@@ -1254,15 +1254,15 @@
     `;
   }
 
-  // View: Alerts
+  // View: Predictive Alerts
   function renderAlerts(c) {
     const list = filterPersonnelList().filter(p => getConcernCount(p) >= 4).sort((a,b) => b.history[2] - a.history[2]);
     c.innerHTML = `
       <div class="section-card">
         <div class="section-header">
           <div>
-            <div class="section-title">Automated Clinical & Welfare Alerts Queue</div>
-            <div class="section-desc">Triggered when ≥4 of 8 clinical biomarker domains breach validated medical thresholds.</div>
+            <div class="section-title">Predictive Clinical and Welfare Alerts</div>
+            <div class="section-desc">Prioritised from assessment results, adaptive baselines, workload patterns and repeated domain changes.</div>
           </div>
           <span class="badge badge-danger">${list.length} Priority Alerts</span>
         </div>
