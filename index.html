@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SEREN — Predictive Personnel Stress & Welfare Monitoring System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0F62FE;
+      --primary-dark: #054ADA;
+      --primary-light: #EDF5FF;
+      --primary-border: #D0E2FF;
+      --bg: #F4F6F9;
+      --surface: #FFFFFF;
+      --surface-sub: #F9FAFC;
+      --border: #E2E6EC;
+      --border-sub: #EEF1F5;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --text-sub: #4B5563;
+      --success: #198038;
+      --success-bg: #DEFBE6;
+      --success-border: #A7F0BA;
+      --warning: #B28600;
+      --warning-bg: #FDF3D6;
+      --warning-border: #FCE199;
+      --danger: #DA1E28;
+      --danger-bg: #FFE5E5;
+      --danger-border: #FFB3B8;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 14px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 30px rgba(0,0,0,0.10);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      font-size: 13.5px;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    /* ===== LOGIN SCREEN ===== */
+    #login { display: flex; height: 100vh; width: 100vw; }
+    .login-hero {
+      flex: 1.1;
+      background: linear-gradient(145deg, #092C74 0%, #0F62FE 60%, #0043CE 100%);
+      color: #fff;
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 460px; height: 460px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-brand { display: flex; align-items: center; gap: 14px; }
+    .hero-emblem {
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+    }
+    .hero-brand h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.3px; }
+    .hero-brand span { font-weight: 400; opacity: 0.85; font-size: 18px; margin-left: 6px; }
+    .hero-content { max-width: 520px; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 700; letter-spacing: 0.3px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero-title { font-size: 28px; font-weight: 800; line-height: 1.3; margin-bottom: 14px; }
+    .hero-desc { font-size: 14px; opacity: 0.9; line-height: 1.65; margin-bottom: 24px; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hero-pill-item {
+      background: rgba(0,0,0,0.18);
+      padding: 6px 12px; border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-footer { font-size: 12px; opacity: 0.8; }
+
+    .login-form-pane {
+      flex: 1;
+      padding: 50px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      overflow-y: auto;
+    }
+    .login-box { width: 100%; max-width: 580px; }
+    .login-box h2 { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 6px; }
+    .login-box p { color: var(--text-muted); font-size: 13.5px; margin-bottom: 24px; }
+
+    .role-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 22px; }
+    .role-card {
+      background: var(--surface-sub);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .role-card:hover { border-color: var(--primary); background: #FAFDFB; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .role-card.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 0 0 3px rgba(15,98,254,0.15); }
+    .role-card-head { display: flex; align-items: center; justify-content: space-between; }
+    .role-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: #fff; color: var(--primary);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .role-card.selected .role-icon { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .role-badge { font-size: 10.5px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: #fff; border: 1px solid var(--border); color: var(--text-muted); }
+    .role-card.selected .role-badge { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .role-title { font-size: 14.5px; font-weight: 700; color: var(--text-main); }
+    .role-scope { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    .btn-login {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-login:hover { background: var(--primary-dark); }
+    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ===== DASHBOARD LAYOUT ===== */
+    #dashboard { display: none; height: 100vh; width: 100vw; }
+    #dashboard.active { display: flex; }
+
+    .sidebar {
+      width: 270px;
+      background: #FFFFFF;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sidebar-logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--primary-light); color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--primary-border);
+    }
+    .sidebar-title { font-weight: 800; font-size: 16px; letter-spacing: -0.2px; }
+    .sidebar-sub { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+    .sidebar-scope-card {
+      padding: 14px 20px;
+      background: var(--surface-sub);
+      border-bottom: 1px solid var(--border);
+    }
+    .scope-tag { font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+    .scope-val { font-size: 13px; font-weight: 700; color: var(--text-main); margin-top: 3px; }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 14px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      padding: 10px 10px 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+    .nav-item:hover { background: var(--border-sub); color: var(--text-main); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+    .nav-icon { display: flex; align-items: center; justify-content: center; width: 18px; }
+    .nav-badge {
+      margin-left: auto;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: #FAFBFD;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sys-status { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-sub); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(25,128,56,0.2); }
+    .btn-switch-role {
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      background: none; border: 1px dashed var(--primary-border);
+      padding: 6px 10px; border-radius: 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-switch-role:hover { background: var(--primary-light); }
+
+    .main-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .topbar {
+      height: 64px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .topbar-title { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: -0.2px; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+    .live-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--success-bg); color: var(--success);
+      border: 1px solid var(--success-border);
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 800;
+    }
+    .topbar-clock { font-size: 13px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .btn-anon {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-sub);
+      font-size: 12.5px; font-weight: 700; color: var(--text-sub);
+      cursor: pointer; user-select: none;
+    }
+    .btn-anon.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ===== STAT CARDS ===== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media(max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .kpi-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .kpi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .kpi-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+    .kpi-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--surface-sub); color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+    }
+    .kpi-val { font-size: 28px; font-weight: 800; color: var(--text-main); line-height: 1.1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+
+    /* ===== CARDS & CONTAINERS ===== */
+    .section-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .section-title { font-size: 15.5px; font-weight: 800; color: var(--text-main); letter-spacing: -0.2px; }
+    .section-desc { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ===== DATA TABLES ===== */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 780px; }
+    th {
+      background: var(--surface-sub);
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border-sub);
+      font-size: 13px;
+      color: var(--text-sub);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr.clickable:hover td { background: #F8FAFC; cursor: pointer; }
+
+    /* ===== STATUS BADGES ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .badge-danger { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger); }
+    .badge-warning { background: var(--warning-bg); border: 1px solid var(--warning-border); color: var(--warning); }
+    .badge-success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); }
+    .badge-neutral { background: var(--surface-sub); border: 1px solid var(--border); color: var(--text-muted); }
+
+    /* ===== BARS & CHARTS ===== */
+    .prog-bar { width: 100%; height: 7px; background: var(--border-sub); border-radius: 999px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 999px; }
+
+    /* ===== DETAIL MODAL ===== */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(17,24,39,0.45);
+      backdrop-filter: blur(4px); opacity: 0; pointer-events: none;
+      transition: opacity 0.2s; z-index: 1000;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+    .modal-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 620px; max-width: 95vw; background: #fff;
+      box-shadow: -10px 0 35px rgba(0,0,0,0.15);
+      transform: translateX(100%); transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1001; display: flex; flex-direction: column;
+    }
+    .modal-drawer.open { transform: translateX(0); }
+    .modal-head {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      background: #FFFFFF;
+    }
+    .modal-close {
+      background: var(--surface-sub); border: 1px solid var(--border);
+      border-radius: 8px; width: 32px; height: 32px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: var(--text-sub);
+    }
+    .modal-close:hover { background: var(--border-sub); }
+    .modal-body { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* ===== CLINICAL EVIDENCE CARDS ===== */
+    .evidence-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    @media(max-width: 1024px) { .evidence-grid { grid-template-columns: 1fr; } }
+    .evidence-card {
+      background: var(--surface-sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .evidence-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .evidence-domain { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: 0.4px; }
+    .evidence-title { font-size: 14px; font-weight: 800; color: var(--text-main); line-height: 1.35; margin-top: 3px; }
+    .evidence-body { font-size: 12.5px; color: var(--text-sub); line-height: 1.6; }
+    .evidence-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .citation-badges { display: flex; align-items: center; gap: 6px; }
+    .pmid-badge {
+      font-size: 11px; font-weight: 700; background: #fff;
+      border: 1px solid var(--border); padding: 2px 7px;
+      border-radius: 6px; color: var(--text-sub);
+    }
+    .pubmed-link {
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .pubmed-link:hover { text-decoration: underline; }
+
+    /* ===== TOAST NOTIFICATION ===== */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #111827; color: #fff; padding: 10px 18px; border-radius: 10px;
+      font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none;
+      transition: all 0.2s ease; z-index: 2000; box-shadow: var(--shadow-lg);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="login">
+  <div class="login-hero">
+    <div class="hero-brand">
+      <div class="hero-emblem">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <div>
+        <h1>SEREN <span>Welfare Command</span></h1>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-tag">Predictive Welfare Monitoring</div>
+      <div class="hero-title">Early Stress Intelligence for Personnel Wellbeing</div>
+      <div class="hero-desc">
+        A privacy-first platform combining physiological signals, cognitive assessments,
+        and workload indicators into clear, actionable welfare insights.
+      </div>
+      <div class="hero-pills">
+        <div class="hero-pill-item">Privacy-first</div>
+        <div class="hero-pill-item">Explainable signals</div>
+        <div class="hero-pill-item">Workload intelligence</div>
+        <div class="hero-pill-item">7-day forecast</div>
+      </div>
+    </div>
+
+    <div class="hero-footer">
+      Secure personnel wellbeing intelligence
+    </div>
+  </div>
+
+  <div class="login-form-pane">
+    <div class="login-box">
+      <h2>Role-Based Access Portal</h2>
+      <p>Select your authorized credential scope to enter the welfare command interface.</p>
+
+      <div class="role-grid" id="roleGrid"></div>
+
+      <button class="btn-login" id="enterBtn" disabled onclick="enterDashboard()">Select Role Above</button>
+      <div style="font-size:11.5px; color:var(--text-muted); text-align:center; margin-top:14px;">
+        Synthetic validation data · Standard operational privacy controls active
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD SCREEN ================= -->
+<div id="dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sidebar-title">SEREN</div>
+        <div class="sidebar-sub">Welfare Command</div>
+      </div>
+    </div>
+
+    <div class="sidebar-scope-card" id="sidebarScope"></div>
+
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+
+    <div class="sidebar-footer">
+      <div class="sys-status"><span class="status-dot"></span> System Nominal · AI Online</div>
+      <button class="btn-switch-role" onclick="logout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Switch Access Role
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-viewport">
+    <header class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard Overview</div>
+      <div class="topbar-right">
+        <div class="live-chip"><span class="status-dot"></span> ACTIVE CYCLE</div>
+        <div class="topbar-clock" id="topbarClock">--:--:--</div>
+        <button class="btn-anon" id="anonBtn" onclick="toggleAnon()" style="display:none;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="anonBtnText">Mask IDs</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="content-scroll" id="contentArea"></div>
+  </main>
+</div>
+
+<!-- ================= DETAIL DRAWER ================= -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+<div class="modal-drawer" id="modalDrawer">
+  <div class="modal-head">
+    <div>
+      <div style="font-size:16px; font-weight:800; color:var(--text-main)" id="modalPersonName">—</div>
+      <div style="font-size:12px; color:var(--text-muted); font-weight:600;" id="modalPersonMeta">—</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ================= 1. CLINICAL & HR EVIDENCE REPOSITORY =================
+  const CLINICAL_EVIDENCE = [
+    {
+      domain: 'Autonomic Nervous System / HRV',
+      title: 'Heart Rate Variability (SDNN/RMSSD) in Chronic Allostatic Stress',
+      summary: 'Task Force standards establish that depressed SDNN (<30 ms) reflects parasympathetic withdrawal and sustained sympathetic overdrive during prolonged psychological & operational strain.',
+      pmid: '8598068',
+      doi: '10.1161/01.CIR.93.5.1043',
+      link: 'https://pubmed.ncbi.nlm.nih.gov/8598068/',
+      reference: 'Task Force of ESC & NASPE. Heart rate variability: standards of measurement. Circulation, 1996.'
+    },
+    {
+      domain: 'Resting Cardiac Hemodynamics',
+      title: 'Resting Heart Rate Elevation as an Objective Biomarker of Burnout',
+      summary: 'Elevated baseline pulse (>85 bpm during rest intervals) strongly correlates with cumulative occupational fatigue and sympathetic hyper-reactivity in first responders and defense forces.',
+      pmid: '32670114',
+      doi: '10.3389/fpsyt.2020.00621',
+      link: 'https://pubmed.ncbi.nlm.nih.gov/32670114/',
+      reference: 'Jarczok MN et al. Autonomic nervous system dysregulation in occupational burnout. Front Psychiatry, 2020.'
+    },
+    {
+      domain: 'Circadian & Sleep Recovery',
+      title: 'Cumulative Sleep Debt & Shift Work Disorder in Uniformed Services',
+      summary: 'Chronic sleep restriction (<6 hrs/day over 14+ days) degrades prefrontal executive control, reaction latency, and increases high-stakes operational error rates by over 50%.',
+      pmid: '31835140',
+      doi: '10.1016/j.smrv.2019.101235',
+      link: 'https://pubmed.ncbi.nlm.nih.gov/31835140/',
+      reference: 'Garbarino S et al. Sleep deprivation and operational readiness in military & police. Sleep Med Rev, 2020.'
+    },
+    {
+      domain: 'Contactless Facial rPPG',
+      title: 'Validity of Non-Contact Optical Photoplethysmography via Camera',
+      summary: 'Facial sub-surface chrominance signal extraction yields clinically accurate inter-beat intervals and heart rate signals under controlled mobile camera capture without specialized sensors.',
+      pmid: '30568285',
+      doi: '10.1109/TBME.2018.2882885',
+      link: 'https://pubmed.ncbi.nlm.nih.gov/30568285/',
+      reference: 'McDuff D et al. Non-contact physiological measurement via smartphone rPPG. IEEE TBME / Nat Digit Med, 2018.'
+    },
+    {
+      domain: 'Acoustic Vocal Biomarkers',
+      title: 'Glottal Pulse Symmetry & Micro-Tremors in Acute Stress States',
+      summary: 'High fundamental frequency perturbation (jitter >1.8%), harmonic-to-noise ratio drops, and acoustic micro-tremor acceleration directly reflect acute neuroendocrine laryngeal tension.',
+      pmid: '29506342',
+      doi: '10.1121/1.5024348',
+      link: 'https://pubmed.ncbi.nlm.nih.gov/29506342/',
+      reference: 'Scherer KR et al. Acoustic profiles of stress and emotional distress. J Acoust Soc Am, 2018.'
+    }
+  ];
+
+  // ================= 2. CLINICAL & HR DATA MODELS =================
+  const CLINICAL_DOMAINS = [
+    { id: 'hrv_autonomic', name: 'Autonomic Regulation (HRV SDNN)', norm: '> 50 ms', icon: 'HR' },
+    { id: 'resting_cardiac', name: 'Resting Pulse & Hemodynamics', norm: '60–80 bpm', icon: 'BP' },
+    { id: 'sleep_circadian', name: 'Circadian Sleep Recovery Index', norm: '> 75 score', icon: 'SL' },
+    { id: 'vocal_acoustic', name: 'Vocal Acoustic Stability', norm: '< 1.5% jitter', icon: 'VC' },
+    { id: 'oculomotor_vision', name: 'Saccadic Latency & Fixation', norm: '180–240 ms', icon: 'VS' },
+    { id: 'neuromotor_stability', name: 'Neuromotor Fine Steadiness', norm: '> 70 score', icon: 'NM' },
+    { id: 'cognitive_executive', name: 'Executive Control & Memory', norm: '> 75 score', icon: 'CM' },
+    { id: 'mobility_fatigue', name: 'Operational Mobility & Fatigue', norm: '> 70 score', icon: 'MF' }
+  ];
+
+  const COGNITIVE_TASKS = [
+    { id: 'mot', name: 'Multiple Object Tracking', domain: 'Visual Tracking', icon: '01' },
+    { id: 'stroop', name: 'Stroop Interference', domain: 'Inhibitory Control', icon: '02' },
+    { id: 'nback', name: 'N-Back Working Memory', domain: 'Executive Memory', icon: '03' },
+    { id: 'corsi', name: 'Corsi Block Tapping', domain: 'Spatial Recall', icon: '04' },
+    { id: 'reaction', name: 'Psychomotor Vigilance', domain: 'Reaction Latency', icon: '05' },
+    { id: 'reasoning', name: 'Operational Logic Test', domain: 'Problem Solving', icon: '06' },
+    { id: 'split', name: 'Dual-Task Attention', domain: 'Divided Attention', icon: '07' }
+  ];
+
+  // 16 realistically modelled personnel records with medical & HR metrics
+  const DB = [
+    {
+      id: 1, name: 'Sanskardeep Talikote', rank: 'Havildar', svc: 'Service#7214', unit: 'Pune · 45 Bn', age: 34,
+      hr: { dutyHoursWeek: 74, leaveDeficitDays: 195, deploymentDays: 209, transfers24m: 3, nightShiftRatio: 55 },
+      bio: { hrv_autonomic: 24, resting_cardiac: 88, sleep_circadian: 48, vocal_acoustic: 44, oculomotor_vision: 46, neuromotor_stability: 68, cognitive_executive: 42, mobility_fatigue: 65 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'normal', cognitive_executive: 'concern', mobility_fatigue: 'normal' },
+      history: [4, 5, 5], lastCheck: '12 Sep · 08:14', spark: [42, 50, 58, 66, 74, 82, 90]
+    },
+    {
+      id: 2, name: 'Aditya Paraskar', rank: 'Inspector', svc: 'Service#3087', unit: 'Pune · 45 Bn', age: 41,
+      hr: { dutyHoursWeek: 78, leaveDeficitDays: 240, deploymentDays: 312, transfers24m: 4, nightShiftRatio: 65 },
+      bio: { hrv_autonomic: 19, resting_cardiac: 94, sleep_circadian: 38, vocal_acoustic: 40, oculomotor_vision: 38, neuromotor_stability: 45, cognitive_executive: 50, mobility_fatigue: 48 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'concern', cognitive_executive: 'warning', mobility_fatigue: 'concern' },
+      history: [5, 6, 6], lastCheck: '12 Sep · 07:58', spark: [60, 65, 70, 72, 78, 84, 88]
+    },
+    {
+      id: 3, name: 'Chinmayee Mohapatra', rank: 'Sub-Inspector', svc: 'Service#5501', unit: 'Nashik · 72 Bn', age: 29,
+      hr: { dutyHoursWeek: 48, leaveDeficitDays: 45, deploymentDays: 156, transfers24m: 1, nightShiftRatio: 20 },
+      bio: { hrv_autonomic: 68, resting_cardiac: 66, sleep_circadian: 86, vocal_acoustic: 88, oculomotor_vision: 84, neuromotor_stability: 85, cognitive_executive: 88, mobility_fatigue: 90 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [1, 1, 0], lastCheck: '11 Sep · 16:30', spark: [20, 22, 25, 24, 22, 20, 18]
+    },
+    {
+      id: 4, name: 'Sanket Korde', rank: 'Head Constable', svc: 'Service#6832', unit: 'Pune · 45 Bn', age: 31,
+      hr: { dutyHoursWeek: 56, leaveDeficitDays: 110, deploymentDays: 198, transfers24m: 2, nightShiftRatio: 35 },
+      bio: { hrv_autonomic: 45, resting_cardiac: 76, sleep_circadian: 62, vocal_acoustic: 68, oculomotor_vision: 64, neuromotor_stability: 72, cognitive_executive: 70, mobility_fatigue: 74 },
+      flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'normal', oculomotor_vision: 'warning', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [2, 3, 2], lastCheck: '12 Sep · 09:00', spark: [35, 38, 40, 42, 38, 35, 32]
+    },
+    {
+      id: 5, name: 'Sanskruti Surywanshi', rank: 'General Duty Constable', svc: 'Service#8104', unit: 'Nashik · 72 Bn', age: 26,
+      hr: { dutyHoursWeek: 72, leaveDeficitDays: 185, deploymentDays: 87, transfers24m: 3, nightShiftRatio: 58 },
+      bio: { hrv_autonomic: 26, resting_cardiac: 90, sleep_circadian: 42, vocal_acoustic: 48, oculomotor_vision: 44, neuromotor_stability: 58, cognitive_executive: 44, mobility_fatigue: 52 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'warning', cognitive_executive: 'concern', mobility_fatigue: 'warning' },
+      history: [5, 5, 6], lastCheck: '12 Sep · 08:30', spark: [55, 60, 65, 72, 78, 82, 86]
+    },
+    {
+      id: 6, name: 'Aarya Gupta', rank: 'General Duty Constable', svc: 'Service#9221', unit: 'Nagpur · 118 Bn', age: 24,
+      hr: { dutyHoursWeek: 44, leaveDeficitDays: 30, deploymentDays: 45, transfers24m: 1, nightShiftRatio: 15 },
+      bio: { hrv_autonomic: 74, resting_cardiac: 64, sleep_circadian: 90, vocal_acoustic: 92, oculomotor_vision: 89, neuromotor_stability: 91, cognitive_executive: 90, mobility_fatigue: 92 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [0, 0, 0], lastCheck: '11 Sep · 17:00', spark: [15, 14, 16, 18, 15, 14, 12]
+    },
+    {
+      id: 7, name: 'Pranav Deshmukh', rank: 'Assistant Sub-Inspector', svc: 'Service#4156', unit: 'Pune · 45 Bn', age: 38,
+      hr: { dutyHoursWeek: 60, leaveDeficitDays: 135, deploymentDays: 267, transfers24m: 2, nightShiftRatio: 40 },
+      bio: { hrv_autonomic: 42, resting_cardiac: 78, sleep_circadian: 58, vocal_acoustic: 62, oculomotor_vision: 65, neuromotor_stability: 74, cognitive_executive: 68, mobility_fatigue: 70 },
+      flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'warning', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [2, 2, 3], lastCheck: '12 Sep · 07:45', spark: [30, 32, 35, 38, 40, 42, 45]
+    },
+    {
+      id: 8, name: 'Omkar Jadhav', rank: 'Havildar', svc: 'Service#5033', unit: 'Nagpur · 118 Bn', age: 36,
+      hr: { dutyHoursWeek: 70, leaveDeficitDays: 175, deploymentDays: 234, transfers24m: 3, nightShiftRatio: 50 },
+      bio: { hrv_autonomic: 28, resting_cardiac: 86, sleep_circadian: 46, vocal_acoustic: 45, oculomotor_vision: 52, neuromotor_stability: 48, cognitive_executive: 55, mobility_fatigue: 56 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'warning', neuromotor_stability: 'concern', cognitive_executive: 'warning', mobility_fatigue: 'warning' },
+      history: [4, 5, 5], lastCheck: '12 Sep · 08:10', spark: [48, 52, 58, 64, 70, 75, 80]
+    },
+    {
+      id: 9, name: 'Rohit Bhosale', rank: 'General Duty Constable', svc: 'Service#9877', unit: 'Nashik · 72 Bn', age: 22,
+      hr: { dutyHoursWeek: 42, leaveDeficitDays: 20, deploymentDays: 30, transfers24m: 1, nightShiftRatio: 10 },
+      bio: { hrv_autonomic: 80, resting_cardiac: 62, sleep_circadian: 92, vocal_acoustic: 94, oculomotor_vision: 90, neuromotor_stability: 92, cognitive_executive: 94, mobility_fatigue: 95 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [0, 0, 0], lastCheck: '11 Sep · 16:45', spark: [10, 12, 10, 8, 10, 12, 10]
+    },
+    {
+      id: 10, name: 'Tejas Pawar', rank: 'Subedar', svc: 'Service#2190', unit: 'Pune · 45 Bn', age: 45,
+      hr: { dutyHoursWeek: 64, leaveDeficitDays: 160, deploymentDays: 401, transfers24m: 2, nightShiftRatio: 45 },
+      bio: { hrv_autonomic: 40, resting_cardiac: 79, sleep_circadian: 54, vocal_acoustic: 60, oculomotor_vision: 58, neuromotor_stability: 62, cognitive_executive: 62, mobility_fatigue: 60 },
+      flags: { hrv_autonomic: 'warning', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'warning', oculomotor_vision: 'warning', neuromotor_stability: 'warning', cognitive_executive: 'warning', mobility_fatigue: 'warning' },
+      history: [2, 3, 3], lastCheck: '12 Sep · 09:15', spark: [38, 40, 42, 45, 48, 50, 52]
+    },
+    {
+      id: 11, name: 'Kedar Mudiraj', rank: 'General Duty Constable', svc: 'Service#8555', unit: 'Nagpur · 118 Bn', age: 23,
+      hr: { dutyHoursWeek: 45, leaveDeficitDays: 35, deploymentDays: 62, transfers24m: 1, nightShiftRatio: 15 },
+      bio: { hrv_autonomic: 72, resting_cardiac: 65, sleep_circadian: 88, vocal_acoustic: 89, oculomotor_vision: 86, neuromotor_stability: 88, cognitive_executive: 88, mobility_fatigue: 90 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [1, 0, 0], lastCheck: '11 Sep · 17:15', spark: [18, 20, 18, 16, 18, 20, 18]
+    },
+    {
+      id: 12, name: 'Aditya Kulkarni', rank: 'Head Constable', svc: 'Service#6298', unit: 'Nashik · 72 Bn', age: 33,
+      hr: { dutyHoursWeek: 76, leaveDeficitDays: 220, deploymentDays: 178, transfers24m: 4, nightShiftRatio: 62 },
+      bio: { hrv_autonomic: 22, resting_cardiac: 92, sleep_circadian: 40, vocal_acoustic: 42, oculomotor_vision: 46, neuromotor_stability: 52, cognitive_executive: 46, mobility_fatigue: 50 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'warning', cognitive_executive: 'concern', mobility_fatigue: 'warning' },
+      history: [5, 6, 6], lastCheck: '12 Sep · 08:05', spark: [58, 62, 68, 74, 80, 85, 92]
+    },
+    {
+      id: 13, name: 'Mohit Raut', rank: 'Inspector', svc: 'Service#3345', unit: 'Nagpur · 118 Bn', age: 42,
+      hr: { dutyHoursWeek: 52, leaveDeficitDays: 70, deploymentDays: 345, transfers24m: 2, nightShiftRatio: 25 },
+      bio: { hrv_autonomic: 55, resting_cardiac: 72, sleep_circadian: 70, vocal_acoustic: 72, oculomotor_vision: 74, neuromotor_stability: 80, cognitive_executive: 76, mobility_fatigue: 78 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [1, 2, 1], lastCheck: '12 Sep · 08:45', spark: [28, 30, 32, 35, 38, 35, 32]
+    },
+    {
+      id: 14, name: 'Sarang Nimbalkar', rank: 'Havildar', svc: 'Service#4789', unit: 'Pune · 45 Bn', age: 37,
+      hr: { dutyHoursWeek: 82, leaveDeficitDays: 275, deploymentDays: 256, transfers24m: 4, nightShiftRatio: 70 },
+      bio: { hrv_autonomic: 18, resting_cardiac: 96, sleep_circadian: 32, vocal_acoustic: 38, oculomotor_vision: 34, neuromotor_stability: 42, cognitive_executive: 38, mobility_fatigue: 40 },
+      flags: { hrv_autonomic: 'concern', resting_cardiac: 'concern', sleep_circadian: 'concern', vocal_acoustic: 'concern', oculomotor_vision: 'concern', neuromotor_stability: 'concern', cognitive_executive: 'concern', mobility_fatigue: 'concern' },
+      history: [6, 7, 7], lastCheck: '12 Sep · 07:30', spark: [65, 70, 75, 80, 85, 90, 95]
+    },
+    {
+      id: 15, name: 'Suyog Gokhale', rank: 'General Duty Constable', svc: 'Service#8890', unit: 'Nashik · 72 Bn', age: 25,
+      hr: { dutyHoursWeek: 42, leaveDeficitDays: 25, deploymentDays: 55, transfers24m: 1, nightShiftRatio: 12 },
+      bio: { hrv_autonomic: 78, resting_cardiac: 63, sleep_circadian: 91, vocal_acoustic: 90, oculomotor_vision: 88, neuromotor_stability: 90, cognitive_executive: 92, mobility_fatigue: 94 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'normal', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [0, 0, 0], lastCheck: '11 Sep · 16:50', spark: [12, 14, 12, 10, 12, 14, 12]
+    },
+    {
+      id: 16, name: 'Parth Dhamal', rank: 'Assistant Sub-Inspector', svc: 'Service#5612', unit: 'Nagpur · 118 Bn', age: 35,
+      hr: { dutyHoursWeek: 58, leaveDeficitDays: 140, deploymentDays: 201, transfers24m: 2, nightShiftRatio: 38 },
+      bio: { hrv_autonomic: 48, resting_cardiac: 75, sleep_circadian: 60, vocal_acoustic: 64, oculomotor_vision: 66, neuromotor_stability: 72, cognitive_executive: 68, mobility_fatigue: 70 },
+      flags: { hrv_autonomic: 'normal', resting_cardiac: 'normal', sleep_circadian: 'warning', vocal_acoustic: 'normal', oculomotor_vision: 'normal', neuromotor_stability: 'normal', cognitive_executive: 'normal', mobility_fatigue: 'normal' },
+      history: [2, 3, 2], lastCheck: '12 Sep · 09:10', spark: [30, 32, 34, 36, 38, 40, 42]
+    }
+  ];
+
+  // ================= 3. ROLES CONFIGURATION =================
+  const ROLES = {
+    commander: {
+      label: 'Unit Commander',
+      scope: 'Pune · 45 Bn (Command Scope)',
+      desc: 'Operational readiness, duty/leave overload, battalion-wide alert queue',
+      nav: ['overview', 'personnel', 'alerts', 'forecast', 'hrms_matrix', 'evidence', 'interventions']
+    },
+    welfare: {
+      label: 'Welfare & Medical Officer',
+      scope: 'Maharashtra Welfare Cell · Clinical & Psychological Desk',
+      desc: 'Clinical queues, physiological biomarkers, intervention action loop, evidence standards',
+      nav: ['overview', 'personnel', 'alerts', 'forecast', 'hrms_matrix', 'evidence', 'interventions', 'cognitive']
+    },
+    personnel: {
+      label: 'Individual Personnel',
+      scope: 'Confidential Self-Wellness (G.D. Constable Aarya Gupta)',
+      desc: 'Private self-status, confidential health support, cognitive resilience training',
+      nav: ['mystatus', 'cognitive', 'evidence', 'privacy']
+    },
+    admin: {
+      label: 'System Administrator',
+      scope: 'Defense Data Governance & RBAC',
+      desc: 'Data masking, security compliance, audit trails, HRMS pipeline controls',
+      nav: ['overview', 'personnel', 'alerts', 'forecast', 'hrms_matrix', 'evidence', 'interventions', 'cognitive', 'audit', 'privacy']
+    }
+  };
+
+  // ================= 4. CORE CLINICAL & HR PREDICTION LOGIC =================
+  let currentRole = null;
+  let currentView = 'overview';
+  let isAnon = false;
+  let searchQuery = '';
+
+  function getConcernCount(p) {
+    return Object.values(p.flags).filter(f => f === 'concern').length;
+  }
+
+  function getOverallRiskScore(p) {
+    // Multi-factor formula combining:
+    // 1) Physiological strain (45%)
+    // 2) HR & Operational workload (35%)
+    // 3) Cognitive & behavioral fatigue (20%)
+
+    // Physiological subscore: (100 - average of normalized biomarker values)
+    const bioVals = Object.values(p.bio);
+    const bioAvg = bioVals.reduce((a, b) => a + b, 0) / bioVals.length;
+    const physioStrain = 100 - bioAvg;
+
+    // HR Operational burden subscore:
+    const dutyEx = Math.max(0, (p.hr.dutyHoursWeek - 48) * 2.2); // >48h scale
+    const leaveEx = Math.min(100, (p.hr.leaveDeficitDays / 200) * 80);
+    const nightEx = (p.hr.nightShiftRatio / 100) * 50;
+    const hrBurden = Math.min(100, (dutyEx * 0.45 + leaveEx * 0.35 + nightEx * 0.20));
+
+    // Cognitive performance subscore:
+    const cogVals = [p.bio.cognitive_executive, p.bio.oculomotor_vision, p.bio.neuromotor_stability];
+    const cogAvg = cogVals.reduce((a,b)=>a+b,0) / cogVals.length;
+    const cogFatigue = 100 - cogAvg;
+
+    const weighted = (physioStrain * 0.45) + (hrBurden * 0.35) + (cogFatigue * 0.20);
+    return Math.max(5, Math.min(98, Math.round(weighted)));
+  }
+
+  function getForecast7d(p) {
+    const risk = getOverallRiskScore(p);
+    const concerns = getConcernCount(p);
+    const persistent = (p.history[2] >= 5) ? 1 : 0;
+
+    // 7-day predictive probability calculation
+    const prob = Math.max(5, Math.min(96, Math.round(0.65 * risk + 4.5 * concerns + 8 * persistent)));
+
+    let level = 'Low';
+    let badgeClass = 'badge-success';
+    if (prob >= 75) { level = 'Critical Risk'; badgeClass = 'badge-danger'; }
+    else if (prob >= 55) { level = 'High Risk'; badgeClass = 'badge-warning'; }
+    else if (prob >= 35) { level = 'Moderate'; badgeClass = 'badge-warning'; }
+
+    const confidence = Math.max(65, Math.min(96, Math.round(55 + (concerns * 4) + (persistent * 8) + (p.hr.dutyHoursWeek > 65 ? 6 : 2))));
+
+    return { prob, level, badgeClass, confidence, horizonDays: 7 };
+  }
+
+  function getExplainableReasons(p) {
+    const reasons = [];
+    const concerns = getConcernCount(p);
+    const persistent = p.history[2] >= 5;
+
+    // 1. Clinical / Physiological Drivers
+    if (p.flags.hrv_autonomic === 'concern') {
+      reasons.push(`Autonomic Imbalance: SDNN depressed at ${p.bio.hrv_autonomic} ms (<30 ms clinical threshold) reflecting severe parasympathetic withdrawal.`);
+    }
+    if (p.flags.resting_cardiac === 'concern') {
+      reasons.push(`Cardiac Hemodynamics: Elevated resting heart rate (${p.bio.resting_cardiac} bpm) indicates sustained sympathetic overdrive & allostatic strain.`);
+    }
+    if (p.flags.sleep_circadian === 'concern') {
+      reasons.push(`Circadian Sleep Debt: Sleep recovery index at ${p.bio.sleep_circadian}/100 indicating chronic micro-arousals.`);
+    }
+    if (p.flags.vocal_acoustic === 'concern') {
+      reasons.push(`Acoustic Vocal Strain: Elevated fundamental frequency jitter and glottal micro-tremors detected during verbal reporting.`);
+    }
+
+    // 2. HRMS / operational workload drivers
+    if (p.hr.dutyHoursWeek >= 68) {
+      reasons.push(`Severe Duty Schedule: Operational burden of ${p.hr.dutyHoursWeek} duty hours/week (benchmark is 48 hrs/week).`);
+    }
+    if (p.hr.leaveDeficitDays >= 160) {
+      reasons.push(`Leave Deficit: ${p.hr.leaveDeficitDays} consecutive days without sanctioned rest/leave cycle.`);
+    }
+    if (p.hr.nightShiftRatio >= 50) {
+      reasons.push(`Circadian Rotation Strain: ${p.hr.nightShiftRatio}% duty on continuous night rotations.`);
+    }
+
+    // 3. Multi-Session Consensus
+    if (concerns >= 4) {
+      reasons.push(`Clinical Consensus: Multi-biomarker threshold met with ${concerns}/8 clinical indicators flagged.`);
+    }
+    if (persistent) {
+      reasons.push(`Persistent Pattern: Alert criteria sustained across ${p.history[2]} consecutive clinical assessments.`);
+    }
+
+    return reasons;
+  }
+
+  function getActionableInterventions(p) {
+    const list = [];
+    if (p.hr.dutyHoursWeek >= 68 || p.flags.sleep_circadian === 'concern') {
+      list.push({ title: 'Mandatory 48-Hour Sleep & Recovery Protocol', role: 'Welfare / Commander', desc: 'Immediate roster adjustment to relieve acute sleep debt and reset circadian baseline.' });
+    }
+    if (p.hr.leaveDeficitDays >= 160) {
+      list.push({ title: 'Sanction Rest & Recuperation (R&R) Leave', role: 'Unit Commander', desc: 'Prioritize accumulated leave rotation to mitigate chronic cumulative allostatic stress.' });
+    }
+    if (p.flags.hrv_autonomic === 'concern' || p.flags.resting_cardiac === 'concern') {
+      list.push({ title: 'Clinical Autonomic & Cardiology Screening', role: 'Medical Officer', desc: 'Conduct non-invasive 12-lead ECG and cardiovascular stress evaluation.' });
+    }
+    if (p.flags.vocal_acoustic === 'concern' || p.flags.cognitive_executive === 'concern') {
+      list.push({ title: 'Confidential Psychological Welfare Counseling', role: 'Psychological Counselor', desc: 'Structured, stigma-free counseling session focusing on stress-coping strategies.' });
+    }
+    if (list.length === 0) {
+      list.push({ title: 'Routine Preventive Monitoring', role: 'System Automatic', desc: 'Biomarkers within healthy physiological norms. Maintain scheduled assessment cycle.' });
+    }
+    return list;
+  }
+
+  function getDisplayName(p) {
+    if (!isAnon) return p.name;
+    let hash = 0;
+    for (let i = 0; i < p.name.length; i++) hash = ((hash << 5) - hash) + p.name.charCodeAt(i);
+    return 'Personnel #' + Math.abs(hash).toString(16).toUpperCase().padStart(4, '0').slice(0, 4);
+  }
+
+  function filterPersonnelList() {
+    let list = [...DB];
+    if (currentRole === 'commander') {
+      list = list.filter(p => p.unit.includes('45 Bn'));
+    } else if (currentRole === 'welfare') {
+      list = list.filter(p => getConcernCount(p) >= 3 || getOverallRiskScore(p) >= 50);
+    } else if (currentRole === 'personnel') {
+      list = list.filter(p => p.id === 6);
+    }
+
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(p => p.name.toLowerCase().includes(q) || p.rank.toLowerCase().includes(q) || p.unit.toLowerCase().includes(q) || p.svc.toLowerCase().includes(q));
+    }
+    return list;
+  }
+
+  // ================= 5. UI INITIALIZATION & NAVIGATION =================
+  function initLogin() {
+    const grid = document.getElementById('roleGrid');
+    grid.innerHTML = Object.entries(ROLES).map(([key, r]) => `
+      <div class="role-card" data-role="${key}" onclick="selectRole('${key}')">
+        <div class="role-card-head">
+          <div class="role-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <span class="role-badge">${key}</span>
+        </div>
+        <div class="role-title">${r.label}</div>
+        <div class="role-scope">${r.desc}</div>
+      </div>
+    `).join('');
+  }
+
+  function selectRole(key) {
+    currentRole = key;
+    document.querySelectorAll('.role-card').forEach(c => {
+      c.classList.toggle('selected', c.dataset.role === key);
+    });
+    const btn = document.getElementById('enterBtn');
+    btn.disabled = false;
+    btn.textContent = `Enter Portal as ${ROLES[key].label}`;
+  }
+
+  function enterDashboard() {
+    if (!currentRole) return;
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('dashboard').classList.add('active');
+
+    // Build sidebar
+    const r = ROLES[currentRole];
+    document.getElementById('sidebarScope').innerHTML = `
+      <div class="scope-tag">Authorized Scope</div>
+      <div class="scope-val">${r.scope}</div>
+    `;
+
+    buildSidebarNav();
+    document.getElementById('anonBtn').style.display = (currentRole === 'admin' || currentRole === 'welfare') ? 'flex' : 'none';
+
+    // Default to first nav tab
+    switchView(r.nav[0]);
+  }
+
+  function logout() {
+    document.getElementById('dashboard').classList.remove('active');
+    document.getElementById('login').style.display = 'flex';
+    currentRole = null;
+    document.getElementById('enterBtn').disabled = true;
+    document.getElementById('enterBtn').textContent = 'Select Role Above';
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  }
+
+  const NAV_CONFIG = {
+    overview: { label: 'Command Overview', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
+    personnel: { label: 'Personnel Queue', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    alerts: { label: 'Automated Alerts', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' },
+    forecast: { label: '7-Day Risk Forecast', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>' },
+    hrms_matrix: { label: 'HR & Duty Matrix', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' },
+    evidence: { label: 'Clinical Evidence Library', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
+    interventions: { label: 'Welfare Action Loop', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+    cognitive: { label: 'Cognitive Assessments', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' },
+    mystatus: { label: 'My Clinical Wellness', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
+    audit: { label: 'Security & Audit Trail', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
+    privacy: { label: 'Privacy & Governance', icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' }
+  };
+
+  function buildSidebarNav() {
+    const r = ROLES[currentRole];
+    const nav = document.getElementById('sidebarNav');
+    const alertCount = DB.filter(p => getConcernCount(p) >= 4).length;
+
+    nav.innerHTML = `
+      <div class="nav-label">Welfare Operations</div>
+      ${r.nav.map(v => {
+        const item = NAV_CONFIG[v] || { label: v, icon: '📌' };
+        const badge = (v === 'alerts' && alertCount > 0) ? `<span class="nav-badge">${alertCount}</span>` : '';
+        return `
+          <button class="nav-item ${v === currentView ? 'active' : ''}" data-view="${v}" onclick="switchView('${v}')">
+            <span class="nav-icon">${item.icon}</span>
+            <span>${item.label}</span>
+            ${badge}
+          </button>
+        `;
+      }).join('')}
+    `;
+  }
+
+  function switchView(view) {
+    currentView = view;
+    document.getElementById('topbarTitle').textContent = NAV_CONFIG[view]?.label || 'Welfare Command';
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === view);
+    });
+    renderView();
+  }
+
+  function toggleAnon() {
+    isAnon = !isAnon;
+    const btn = document.getElementById('anonBtn');
+    btn.classList.toggle('active', isAnon);
+    document.getElementById('anonBtnText').textContent = isAnon ? 'IDs Masked (ON)' : 'Mask IDs';
+    renderView();
+    showToast(isAnon ? 'Anonymization Mode Enabled: Personnel Identifiers Masked' : 'Anonymization Mode Disabled: Real Roster Displayed');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ================= 6. VIEW RENDERERS =================
+  function renderView() {
+    const container = document.getElementById('contentArea');
+    container.innerHTML = '';
+
+    if (currentView === 'overview') renderOverview(container);
+    else if (currentView === 'personnel') renderPersonnel(container);
+    else if (currentView === 'alerts') renderAlerts(container);
+    else if (currentView === 'forecast') renderForecast(container);
+    else if (currentView === 'hrms_matrix') renderHrmsMatrix(container);
+    else if (currentView === 'evidence') renderEvidence(container);
+    else if (currentView === 'interventions') renderInterventions(container);
+    else if (currentView === 'cognitive') renderCognitive(container);
+    else if (currentView === 'mystatus') renderMyStatus(container);
+    else if (currentView === 'audit') renderAudit(container);
+    else if (currentView === 'privacy') renderPrivacy(container);
+  }
+
+  // View: Overview
+  function renderOverview(c) {
+    const list = filterPersonnelList();
+    const total = list.length;
+    const critical = list.filter(p => getForecast7d(p).prob >= 75).length;
+    const dutyHigh = list.filter(p => p.hr.dutyHoursWeek >= 68).length;
+    const persistent = list.filter(p => p.history[2] >= 5).length;
+
+    c.innerHTML = `
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Monitored Force</span>
+            <div class="kpi-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          </div>
+          <div class="kpi-val">${total}</div>
+          <div class="kpi-sub">Active scope personnel</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">7d High Stress Forecast</span>
+            <div class="kpi-icon" style="color:var(--danger)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div>
+          </div>
+          <div class="kpi-val" style="color:var(--danger)">${critical}</div>
+          <div class="kpi-sub">>75% predictive probability</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Overtime / Duty Deficit</span>
+            <div class="kpi-icon" style="color:var(--warning)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
+          <div class="kpi-val" style="color:var(--warning)">${dutyHigh}</div>
+          <div class="kpi-sub">Exceeding 68 hrs/week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Persistent Alert Chain</span>
+            <div class="kpi-icon" style="color:var(--primary)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          </div>
+          <div class="kpi-val">${persistent}</div>
+          <div class="kpi-sub">3 consecutive sessions flagged</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Clinical & Operational Stress Horizon</div>
+            <div class="section-desc">Multi-modal synthesis of voluntary physiological biomarkers and HRMS duty/leave records.</div>
+          </div>
+          <button class="btn-login" style="width:auto; padding:8px 16px; font-size:12.5px;" onclick="switchView('forecast')">View Full 7-Day Forecast</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Battalion & Rank</th>
+                <th>Duty Hours / Wk</th>
+                <th>Leave Deficit</th>
+                <th>Primary Clinical Strain</th>
+                <th>7-Day Risk Forecast</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.slice(0, 6).map(p => {
+                const f = getForecast7d(p);
+                const concerns = getConcernCount(p);
+                return `
+                  <tr class="clickable" onclick="openDetailModal(${p.id})">
+                    <td>
+                      <div style="font-weight:700; color:var(--text-main)">${getDisplayName(p)}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted)">${p.svc}</div>
+                    </td>
+                    <td>${p.rank} · ${p.unit}</td>
+                    <td>
+                      <b>${p.hr.dutyHoursWeek} hrs</b>
+                      <div style="font-size:11px; color:${p.hr.dutyHoursWeek>65?'var(--danger)':'var(--text-muted)'}">${p.hr.dutyHoursWeek>65?'Heavy Load':'Nominal'}</div>
+                    </td>
+                    <td>
+                      <b>${p.hr.leaveDeficitDays} days</b>
+                      <div style="font-size:11px; color:${p.hr.leaveDeficitDays>150?'var(--danger)':'var(--text-muted)'}">${p.hr.leaveDeficitDays>150?'Overdue':'Standard'}</div>
+                    </td>
+                    <td>
+                      <span class="badge ${concerns>=4?'badge-danger':concerns>=2?'badge-warning':'badge-success'}">${concerns}/8 Domains Flagged</span>
+                    </td>
+                    <td>
+                      <span class="badge ${f.badgeClass}">${f.level} (${f.prob}%)</span>
+                    </td>
+                    <td>
+                      <button class="btn-switch-role" style="padding:4px 8px; font-size:11.5px;" onclick="event.stopPropagation(); openDetailModal(${p.id})">Review Detail</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Personnel
+  function renderPersonnel(c) {
+    const list = filterPersonnelList();
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Personnel Welfare & Clinical Roster</div>
+            <div class="section-desc">Unified record integrating physiological biomarkers, cognitive indicators, and HR operational stats.</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <input type="text" placeholder="Search personnel, rank, unit..." value="${searchQuery}" oninput="searchQuery=this.value; renderPersonnel(document.getElementById('contentArea'))" style="padding:8px 14px; border:1px solid var(--border); border-radius:8px; font-size:12.5px; width:240px;" />
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Unit / Service ID</th>
+                <th>HR Duty Load</th>
+                <th>Autonomic (HRV)</th>
+                <th>Resting Pulse</th>
+                <th>Sleep Recovery</th>
+                <th>7-Day Forecast</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(p => {
+                const f = getForecast7d(p);
+                const r = getOverallRiskScore(p);
+                return `
+                  <tr class="clickable" onclick="openDetailModal(${p.id})">
+                    <td>
+                      <div style="font-weight:700; color:var(--text-main)">${getDisplayName(p)}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted)">${p.rank} · Age ${p.age}</div>
+                    </td>
+                    <td>${p.unit}<div style="font-size:11.5px; color:var(--text-muted)">${p.svc}</div></td>
+                    <td>
+                      <div><b>${p.hr.dutyHoursWeek} hrs/wk</b></div>
+                      <div style="font-size:11px; color:var(--text-muted)">${p.hr.leaveDeficitDays}d without leave</div>
+                    </td>
+                    <td>
+                      <b>${p.bio.hrv_autonomic} ms</b>
+                      <div style="font-size:11px; color:${p.flags.hrv_autonomic==='concern'?'var(--danger)':'var(--success)'}">${p.flags.hrv_autonomic==='concern'?'Depressed (<30)':'Normal'}</div>
+                    </td>
+                    <td>
+                      <b>${p.bio.resting_cardiac} bpm</b>
+                      <div style="font-size:11px; color:${p.flags.resting_cardiac==='concern'?'var(--danger)':'var(--success)'}">${p.flags.resting_cardiac==='concern'?'Tachycardia':'Normal'}</div>
+                    </td>
+                    <td>
+                      <b>${p.bio.sleep_circadian}/100</b>
+                      <div style="font-size:11px; color:${p.flags.sleep_circadian==='concern'?'var(--danger)':'var(--success)'}">${p.flags.sleep_circadian==='concern'?'Severe Debt':'Restored'}</div>
+                    </td>
+                    <td>
+                      <span class="badge ${f.badgeClass}">${f.level}</span>
+                      <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${f.prob}% prob · ${f.confidence}% conf</div>
+                    </td>
+                    <td>
+                      <button class="btn-switch-role" style="padding:4px 8px; font-size:11.5px;" onclick="event.stopPropagation(); openDetailModal(${p.id})">Open Profile</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Alerts
+  function renderAlerts(c) {
+    const list = filterPersonnelList().filter(p => getConcernCount(p) >= 4).sort((a,b) => b.history[2] - a.history[2]);
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Automated Clinical & Welfare Alerts Queue</div>
+            <div class="section-desc">Triggered when ≥4 of 8 clinical biomarker domains breach validated medical thresholds.</div>
+          </div>
+          <span class="badge badge-danger">${list.length} Priority Alerts</span>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Clinical Consensus Breach</th>
+                <th>HR Load Co-Factors</th>
+                <th>Persistence Chain</th>
+                <th>Predicted 7d Risk</th>
+                <th>Mandated Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(p => {
+                const f = getForecast7d(p);
+                const reasons = getExplainableReasons(p);
+                const persistent = p.history[2] >= 5;
+                return `
+                  <tr class="clickable" onclick="openDetailModal(${p.id})">
+                    <td>
+                      <div style="font-weight:700; color:var(--text-main)">${getDisplayName(p)}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted)">${p.rank} · ${p.unit}</div>
+                    </td>
+                    <td>
+                      <span class="badge badge-danger">${getConcernCount(p)}/8 Biomarkers Flagged</span>
+                      <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">HRV ${p.bio.hrv_autonomic}ms · Pulse ${p.bio.resting_cardiac}bpm</div>
+                    </td>
+                    <td>
+                      <b>${p.hr.dutyHoursWeek} hrs/wk</b>
+                      <div style="font-size:11px; color:var(--text-muted)">${p.hr.leaveDeficitDays} days leave deficit</div>
+                    </td>
+                    <td>
+                      <span class="badge ${persistent?'badge-danger':'badge-warning'}">${p.history[2]}/6 Flagged Sessions</span>
+                      <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${persistent?'Chronic Multi-Session Alert':'Active Evaluation'}</div>
+                    </td>
+                    <td>
+                      <b>${f.prob}% Probability</b>
+                      <div style="font-size:11px; color:var(--text-muted)">${f.confidence}% confidence</div>
+                    </td>
+                    <td>
+                      <button class="btn-login" style="width:auto; padding:6px 12px; font-size:11.5px;" onclick="event.stopPropagation(); openDetailModal(${p.id})">Initiate Welfare Loop</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: 7-Day Forecast
+  function renderForecast(c) {
+    const list = filterPersonnelList().sort((a,b) => getForecast7d(b).prob - getForecast7d(a).prob);
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">7-Day Stress & Burnout Predictive Horizon</div>
+            <div class="section-desc">Forecasting cumulative operational and somatic burnout risk with multi-factorial clinical explainability.</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Predicted Risk Level</th>
+                <th>Probability & Confidence</th>
+                <th>Primary Clinical & HR Factors</th>
+                <th>Recommended Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(p => {
+                const f = getForecast7d(p);
+                const reasons = getExplainableReasons(p);
+                return `
+                  <tr class="clickable" onclick="openDetailModal(${p.id})">
+                    <td>
+                      <div style="font-weight:700; color:var(--text-main)">${getDisplayName(p)}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted)">${p.rank} · ${p.unit}</div>
+                    </td>
+                    <td>
+                      <span class="badge ${f.badgeClass}">${f.level}</span>
+                    </td>
+                    <td>
+                      <div style="font-weight:800; color:var(--text-main)">${f.prob}% Risk Prob</div>
+                      <div style="font-size:11.5px; color:var(--text-muted);">${f.confidence}% model confidence</div>
+                    </td>
+                    <td style="max-width:380px;">
+                      <ul style="padding-left:14px; margin:0; font-size:12px; color:var(--text-sub);">
+                        ${reasons.slice(0, 2).map(r => `<li>${r}</li>`).join('')}
+                      </ul>
+                    </td>
+                    <td>
+                      <button class="btn-switch-role" style="padding:5px 10px; font-size:11.5px;" onclick="event.stopPropagation(); openDetailModal(${p.id})">View Analysis</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: HR & Duty Matrix
+  function renderHrmsMatrix(c) {
+    const list = filterPersonnelList().sort((a,b) => b.hr.dutyHoursWeek - a.hr.dutyHoursWeek);
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">HRMS Operational Duty & Leave Stress Matrix</div>
+            <div class="section-desc">Continuous analysis of duty schedules, leave deficit, deployment tenure, and transfer volatility.</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Personnel</th>
+                <th>Duty Hours / Week</th>
+                <th>Leave Deficit (Days)</th>
+                <th>Field Deployment Tenure</th>
+                <th>Transfers (Last 24m)</th>
+                <th>Night Shift Ratio</th>
+                <th>Workload Stress Index</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.map(p => {
+                const dutyOver = p.hr.dutyHoursWeek >= 68;
+                const leaveOver = p.hr.leaveDeficitDays >= 160;
+                return `
+                  <tr class="clickable" onclick="openDetailModal(${p.id})">
+                    <td>
+                      <div style="font-weight:700; color:var(--text-main)">${getDisplayName(p)}</div>
+                      <div style="font-size:11.5px; color:var(--text-muted)">${p.rank} · ${p.svc}</div>
+                    </td>
+                    <td>
+                      <span class="badge ${dutyOver?'badge-danger':'badge-neutral'}">${p.hr.dutyHoursWeek} hrs/wk</span>
+                    </td>
+                    <td>
+                      <span class="badge ${leaveOver?'badge-danger':'badge-neutral'}">${p.hr.leaveDeficitDays} days</span>
+                    </td>
+                    <td>
+                      <b>${p.hr.deploymentDays} days</b>
+                      <div style="font-size:11px; color:var(--text-muted)">Continuous active deployment</div>
+                    </td>
+                    <td>
+                      <b>${p.hr.transfers24m} postings</b>
+                    </td>
+                    <td>
+                      <b>${p.hr.nightShiftRatio}%</b>
+                      <div class="prog-bar" style="margin-top:4px;"><div class="prog-fill" style="width:${p.hr.nightShiftRatio}%; background:${p.hr.nightShiftRatio>50?'var(--danger)':'var(--primary)'}"></div></div>
+                    </td>
+                    <td>
+                      <button class="btn-switch-role" style="padding:4px 8px; font-size:11.5px;" onclick="event.stopPropagation(); openDetailModal(${p.id})">Workload Balancing</button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Clinical Evidence Library
+  function renderEvidence(c) {
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Peer-Reviewed Clinical & Medical Standards Library</div>
+            <div class="section-desc">Scientific validation and reference publications grounding all SEREN physiological algorithms and risk thresholds.</div>
+          </div>
+        </div>
+
+        <div class="evidence-grid">
+          ${CLINICAL_EVIDENCE.map(ev => `
+            <div class="evidence-card">
+              <div>
+                <div class="evidence-header">
+                  <span class="evidence-domain">${ev.domain}</span>
+                  <div class="citation-badges">
+                    <span class="pmid-badge">PMID: ${ev.pmid}</span>
+                  </div>
+                </div>
+                <div class="evidence-title">${ev.title}</div>
+                <div class="evidence-body" style="margin-top:8px;">${ev.summary}</div>
+              </div>
+              <div class="evidence-footer">
+                <span style="font-size:11.5px; color:var(--text-muted); font-style:italic;">${ev.reference}</span>
+                <a href="${ev.link}" target="_blank" rel="noopener noreferrer" class="pubmed-link">
+                  PubMed / DOI
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Interventions Loop
+  function renderInterventions(c) {
+    const list = filterPersonnelList().filter(p => getConcernCount(p) >= 3 || p.hr.dutyHoursWeek >= 68);
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Welfare Action & Intervention Loop</div>
+            <div class="section-desc">Closed-loop tracking of proactive commander & welfare interventions to prevent acute burnout.</div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px;">
+          ${list.map(p => {
+            const actions = getActionableInterventions(p);
+            return `
+              <div class="evidence-card">
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:800; font-size:14px;">${getDisplayName(p)}</div>
+                    <span class="badge badge-warning">${p.rank}</span>
+                  </div>
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">${p.unit} · Duty: ${p.hr.dutyHoursWeek}h/wk</div>
+
+                  <div style="margin-top:12px;">
+                    <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Recommended Welfare Steps:</div>
+                    <ul style="padding-left:14px; font-size:12.5px; color:var(--text-sub); display:flex; flex-direction:column; gap:6px;">
+                      ${actions.map(a => `<li><b>${a.title}</b> (${a.role})<div style="font-size:11.5px; color:var(--text-muted);">${a.desc}</div></li>`).join('')}
+                    </ul>
+                  </div>
+                </div>
+
+                <div style="display:flex; gap:8px; margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+                  <button class="btn-login" style="flex:1; padding:8px; font-size:12px;" onclick="showToast('Welfare Action Logged for ' + '${getDisplayName(p)}')">Log Intervention</button>
+                  <button class="btn-switch-role" style="flex:1; padding:8px; font-size:12px;" onclick="showToast('Roster adjustment request forwarded to Unit Commander.')">Roster Rebalance</button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Cognitive Assessments
+  function renderCognitive(c) {
+    const p = currentRole === 'personnel' ? DB.find(x => x.id === 6) : DB[0];
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Cognitive & Behavioral Performance Indicators</div>
+            <div class="section-desc">Evaluating executive function, psychomotor speed, and attention stability via 7 voluntary in-app tasks.</div>
+          </div>
+          <span style="font-size:12.5px; font-weight:700; color:var(--primary);">Active Personnel: ${getDisplayName(p)}</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+          ${COGNITIVE_TASKS.map(t => {
+            const score = Math.min(95, Math.max(30, Math.round(p.bio.cognitive_executive + (Math.random()*10 - 5))));
+            return `
+              <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:18px;">${t.icon}</span>
+                    <span style="font-weight:700; font-size:13.5px;">${t.name}</span>
+                  </div>
+                  <span class="badge ${score>=70?'badge-success':score>=50?'badge-warning':'badge-danger'}">${score} Score</span>
+                </div>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:6px;">Target Domain: ${t.domain}</div>
+                <div class="prog-bar"><div class="prog-fill" style="width:${score}%; background:${score>=70?'var(--success)':score>=50?'var(--warning)':'var(--danger)'}"></div></div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // View: My Status (Personnel Self-View)
+  function renderMyStatus(c) {
+    const p = DB.find(x => x.id === 6);
+    const f = getForecast7d(p);
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">My Confidential Wellness Dashboard</div>
+            <div class="section-desc">Personal physiological trend and welfare support indicators. Strictly confidential.</div>
+          </div>
+          <span class="badge badge-success">Status: Healthy & Fit</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; margin-bottom:20px;">
+          <div style="background:var(--primary-light); border:1px solid var(--primary-border); border-radius:12px; padding:18px;">
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--primary);">Autonomic Balance</div>
+            <div style="font-size:26px; font-weight:800; color:var(--primary); margin:6px 0;">${p.bio.hrv_autonomic} ms</div>
+            <div style="font-size:12px; color:var(--text-sub);">Healthy heart rate variability baseline.</div>
+          </div>
+          <div style="background:var(--success-bg); border:1px solid var(--success-border); border-radius:12px; padding:18px;">
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--success);">Resting Cardiac Pulse</div>
+            <div style="font-size:26px; font-weight:800; color:var(--success); margin:6px 0;">${p.bio.resting_cardiac} bpm</div>
+            <div style="font-size:12px; color:var(--text-sub);">Within nominal cardiovascular range.</div>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:18px;">
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted);">Circadian Sleep Score</div>
+            <div style="font-size:26px; font-weight:800; color:var(--text-main); margin:6px 0;">${p.bio.sleep_circadian}/100</div>
+            <div style="font-size:12px; color:var(--text-sub);">Adequate restorative rest recorded.</div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+          <div style="font-weight:700; margin-bottom:4px;">Stigma-Free Support & Assistance</div>
+          <p style="font-size:12.5px; color:var(--text-sub); margin-bottom:12px;">All assessments are voluntary and designed solely to assist your mental & physical readiness. If you experience fatigue, confidential counseling and medical consultations are available 24/7.</p>
+          <button class="btn-login" style="width:auto; padding:8px 16px; font-size:12.5px;" onclick="showToast('Confidential support request forwarded to Welfare Desk.')">Request Confidential Welfare Chat</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Audit Trail
+  function renderAudit(c) {
+    const logs = [
+      { time: '12 Sep 09:15', actor: 'Automated System', event: 'Consensus alert raised: 4 of 8 clinical domains breached for Hav. Sanskardeep Talikote.' },
+      { time: '12 Sep 08:30', actor: 'Sector Welfare Desk', event: 'Rest & recuperation protocol queued for Insp. Aditya Paraskar.' },
+      { time: '12 Sep 08:14', actor: 'Commander Terminal', event: '45 Bn duty roster synchronization completed via secure HRMS connector.' },
+      { time: '11 Sep 17:00', actor: 'System Admin', event: 'Role-based anonymization toggle engaged: Personnel names masked for secondary review.' }
+    ];
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">System Audit & Governance Log</div>
+            <div class="section-desc">Tamper-evident record of all alert triggers, data accesses, and welfare interventions.</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Timestamp</th><th>Actor / Subsystem</th><th>Audit Event Description</th></tr>
+            </thead>
+            <tbody>
+              ${logs.map(l => `<tr><td><b>${l.time}</b></td><td>${l.actor}</td><td>${l.event}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  // View: Privacy & Governance
+  function renderPrivacy(c) {
+    c.innerHTML = `
+      <div class="section-card">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Privacy, Security & Data Protection Framework</div>
+            <div class="section-desc">Strict compliance with DPDP Act, non-stigmatizing welfare mandates, and military security standards.</div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px;">
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-weight:700; margin-bottom:6px;">1. Stigma-Free Support Policy</div>
+            <p style="font-size:12.5px; color:var(--text-sub);">System data is strictly insulated from disciplinary proceedings, ACR appraisals, or punitive actions. The platform operates strictly as a preventive welfare mechanism.</p>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-weight:700; margin-bottom:6px;">2. Dynamic Role-Based Access Control</div>
+            <p style="font-size:12.5px; color:var(--text-sub);">Unit Commanders view operational load & aggregate status; Medical Officers access clinical biomarkers; Personnel view only their private records.</p>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-weight:700; margin-bottom:6px;">3. Cryptographic Data Anonymization</div>
+            <p style="font-size:12.5px; color:var(--text-sub);">One-click masking converts identifiable roster records to cryptographically salted pseudo-identifiers (Personnel #XXXX) for broad analysis.</p>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+            <div style="font-weight:700; margin-bottom:6px;">4. Edge-Based Mobile Processing</div>
+            <p style="font-size:12.5px; color:var(--text-sub);">Biometric signals (rPPG video, vocal samples) are processed locally on the user's mobile device; only derived numerical indices are synced.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ================= 7. DETAIL MODAL DIALOG =================
+  function openDetailModal(id) {
+    const p = DB.find(x => x.id === id);
+    if (!p) return;
+
+    const f = getForecast7d(p);
+    const r = getOverallRiskScore(p);
+    const reasons = getExplainableReasons(p);
+    const actions = getActionableInterventions(p);
+
+    document.getElementById('modalPersonName').textContent = getDisplayName(p);
+    document.getElementById('modalPersonMeta').textContent = `${p.rank} · ${p.unit} · ${p.svc} · Age ${p.age}`;
+
+    const body = document.getElementById('modalBody');
+    body.innerHTML = `
+      <div style="display:flex; gap:16px; align-items:center; background:var(--surface-sub); border:1px solid var(--border); border-radius:12px; padding:16px;">
+        <div style="text-align:center; min-width:90px;">
+          <div style="font-size:32px; font-weight:800; color:${f.prob>=75?'var(--danger)':f.prob>=50?'var(--warning)':'var(--success)'}; line-height:1;">${f.prob}%</div>
+          <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-top:4px;">7d Risk Prob</div>
+        </div>
+        <div style="border-left:1px solid var(--border); padding-left:16px;">
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="badge ${f.badgeClass}">${f.level}</span>
+            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">${f.confidence}% model confidence</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:6px;">
+            Persistent chain: <b>${p.history[2]}/6 sessions</b> · Last assessed: ${p.lastCheck}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--text-main); margin-bottom:10px;">Explainable Clinical & HR Drivers:</div>
+        <ul style="padding-left:16px; font-size:12.5px; color:var(--text-sub); display:flex; flex-direction:column; gap:6px;">
+          ${reasons.map(res => `<li>${res}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--text-main); margin-bottom:10px;">Physiological Biomarkers Breakdown:</div>
+        <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px;">
+          ${CLINICAL_DOMAINS.map(d => {
+            const val = p.bio[d.id];
+            const flag = p.flags[d.id];
+            return `
+              <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                  <span style="font-weight:700;">${d.icon} ${d.name}</span>
+                  <span class="badge ${flag==='concern'?'badge-danger':flag==='warning'?'badge-warning':'badge-success'}">${val}</span>
+                </div>
+                <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Ref: ${d.norm}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--text-main); margin-bottom:10px;">HRMS Operational Workload Profile:</div>
+        <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; font-size:12.5px;">
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:10px;">
+            <div style="color:var(--text-muted); font-size:11px;">Weekly Duty Hours</div>
+            <div style="font-size:16px; font-weight:800; color:${p.hr.dutyHoursWeek>65?'var(--danger)':'var(--text-main)'}">${p.hr.dutyHoursWeek} hrs/week</div>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:10px;">
+            <div style="color:var(--text-muted); font-size:11px;">Leave Deficit</div>
+            <div style="font-size:16px; font-weight:800; color:${p.hr.leaveDeficitDays>150?'var(--danger)':'var(--text-main)'}">${p.hr.leaveDeficitDays} days overdue</div>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:10px;">
+            <div style="color:var(--text-muted); font-size:11px;">Deployment Tenure</div>
+            <div style="font-size:16px; font-weight:800;">${p.hr.deploymentDays} days in field</div>
+          </div>
+          <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:10px;">
+            <div style="color:var(--text-muted); font-size:11px;">Night Shift Ratio</div>
+            <div style="font-size:16px; font-weight:800;">${p.hr.nightShiftRatio}% night duties</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13.5px; font-weight:800; color:var(--text-main); margin-bottom:10px;">Mandated Welfare Action Steps:</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          ${actions.map(a => `
+            <div style="background:var(--surface-sub); border:1px solid var(--border); border-radius:10px; padding:12px;">
+              <div style="font-weight:700; font-size:13px;">${a.title}</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">Target: ${a.role} · ${a.desc}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:8px;">
+        <button class="btn-login" style="flex:1;" onclick="showToast('Welfare intervention assigned & tracked.'); closeModal();">Authorize Intervention</button>
+        <button class="btn-switch-role" style="flex:1;" onclick="closeModal();">Dismiss</button>
+      </div>
+    `;
+
+    document.getElementById('modalBackdrop').classList.add('open');
+    document.getElementById('modalDrawer').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.getElementById('modalDrawer').classList.remove('open');
+  }
+
+  // ================= 8. CLOCK & INIT =================
+  function initClock() {
+    const el = document.getElementById('topbarClock');
+    const update = () => { el.textContent = new Date().toLocaleTimeString('en-IN', { hour12: false }); };
+    update();
+    setInterval(update, 1000);
+  }
+
+  initLogin();
+  initClock();
+</script>
+</body>
+</html>
